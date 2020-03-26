@@ -1,8 +1,10 @@
 public class Index {
     private char from;
     private char to;
-    double distance;
-    double penalty;
+    private double distance;
+    private double penalty;
+    private int rowNumber;
+    private int colNumber;
 
     public Index(){
 
@@ -39,5 +41,21 @@ public class Index {
 
     public double getPenalty() {
         return penalty;
+    }
+
+    public int getColNumber() {
+        return colNumber;
+    }
+
+    public void setColNumber(int colNumber) {
+        this.colNumber = colNumber;
+    }
+
+    public void setRowNumber(int rowNumber) {
+        this.rowNumber = rowNumber;
+    }
+
+    public int getRowNumber() {
+        return rowNumber;
     }
 }
