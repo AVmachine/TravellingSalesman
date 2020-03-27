@@ -19,6 +19,8 @@ public class Main {
        ReducingMatrix redmax = new ReducingMatrix();
        redmax.fillMatrix(listOfPoints);
        redmax.displayMatrix();
+       redmax.rowMinimize();
+       redmax.displayMatrix();
 
 
 

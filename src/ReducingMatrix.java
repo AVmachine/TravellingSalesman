@@ -41,6 +41,36 @@ public class ReducingMatrix
 
     }
 
+    public void rowMinimize()
+    {
+        for(int x = 0; x < rmarr.length; x++)
+        {
+            Double smallest = null;
+            boolean reset = false;
+            for(int y = 0; y < rmarr.length ; y++)
+            {
+                if(smallest == null && !Double.isNaN(rmarr[x][y].getDistance()) && !reset)
+                {
+                    smallest = rmarr[x][y].getDistance();
+                }
+                if(smallest != null && rmarr[x][y].getDistance() < smallest && !reset)
+                {
+                    smallest = rmarr[x][y].getDistance();
+                }
+                if(y == rmarr.length - 1 && !reset)
+                {
+                    y = 0;
+                    reset = true;
+                }
+                if(reset == true && rmarr[x][y].getDistance() != Double.NaN)
+                {
+                    rmarr[x][y].setDistance(rmarr[x][y].getDistance() - smallest);
+                }
+
+            }
+        }
+    }
+
 
     public double getDistance(Point A, Point B)
     {
