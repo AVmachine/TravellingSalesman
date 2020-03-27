@@ -71,6 +71,36 @@ public class ReducingMatrix
         }
     }
 
+    public void colMinimize()
+    {
+        for(int x = 0; x < rmarr.length; x++)
+        {
+            Double smallest = null;
+            boolean reset = false;
+            for(int y = 0; y < rmarr.length ; y++)
+            {
+                if(smallest == null && !Double.isNaN(rmarr[y][x].getDistance()) && !reset)
+                {
+                    smallest = rmarr[y][x].getDistance();
+                }
+                if(smallest != null && rmarr[y][x].getDistance() < smallest && !reset)
+                {
+                    smallest = rmarr[y][x].getDistance();
+                }
+                if(y == rmarr.length - 1 && !reset)
+                {
+                    y = 0;
+                    reset = true;
+                }
+                if(reset == true && rmarr[y][x].getDistance() != Double.NaN)
+                {
+                    rmarr[y][x].setDistance(rmarr[y][x].getDistance() - smallest);
+                }
+
+            }
+        }
+    }
+
 
     public double getDistance(Point A, Point B)
     {

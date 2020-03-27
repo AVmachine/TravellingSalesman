@@ -21,6 +21,8 @@ public class Main {
        redmax.displayMatrix();
        redmax.rowMinimize();
        redmax.displayMatrix();
+       redmax.colMinimize();
+       redmax.displayMatrix();
 
 
 
