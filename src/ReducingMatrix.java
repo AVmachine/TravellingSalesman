@@ -137,14 +137,14 @@ public class ReducingMatrix
     public void addRowPenalty(int row, int allZeroesIndex)
     {
         Double smallest = Double.NaN;
-        
+
        for (int y = 0; y < rmarr.length ; y++)
         {
-            if(!Double.isNaN(rmarr[row][y].getDistance()) && Double.isNaN(smallest))
+            if(!Double.isNaN(rmarr[row][y].getDistance()) && Double.isNaN(smallest) && y != allZeroesList.get(allZeroesIndex).getColNumber())
             {
                 smallest = rmarr[row][y].getDistance();
             }
-            else if (rmarr[row][y].getDistance() < smallest && !Double.isNaN(smallest))
+            else if (rmarr[row][y].getDistance() < smallest && !Double.isNaN(smallest) && y != allZeroesList.get(allZeroesIndex).getColNumber())
             {
                 smallest = rmarr[row][y].getDistance();
             }
@@ -159,16 +159,17 @@ public class ReducingMatrix
 
         for (int x = 0; x < rmarr.length ; x++)
         {
-            if(!Double.isNaN(rmarr[x][col].getDistance()) && Double.isNaN(smallest))
+            if(!Double.isNaN(rmarr[x][col].getDistance()) && Double.isNaN(smallest) && x != allZeroesList.get(allZeroesIndex).getRowNumber())
             {
                 smallest = rmarr[x][col].getDistance();
             }
-            else if (rmarr[x][col].getDistance() < smallest && !Double.isNaN(smallest))
+            else if (rmarr[x][col].getDistance() < smallest && !Double.isNaN(smallest) && x != allZeroesList.get(allZeroesIndex).getRowNumber())
             {
                 smallest = rmarr[x][col].getDistance();
             }
         }
         allZeroesList.get(allZeroesIndex).addToPenalty(smallest);
+        smallest = Double.NaN;
 
     }
 
