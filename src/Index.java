@@ -35,8 +35,9 @@ public class Index {
         return distance;
     }
 
-    public void setPenalty(double penalty) {
-        this.penalty = penalty;
+    public void addToPenalty(double penalty)
+    {
+        this.penalty += penalty;
     }
 
     public double getPenalty() {

@@ -23,6 +23,10 @@ public class Main {
        redmax.displayMatrix();
        redmax.colMinimize();
        redmax.displayMatrix();
+       redmax.getAllZeros();
+       redmax.getPenalty();
+       redmax.displayMatrix();
+
 
 
 
