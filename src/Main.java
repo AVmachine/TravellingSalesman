@@ -26,6 +26,7 @@ public class Main {
        redmax.getAllZeros();
        redmax.getPenalty();
        redmax.displayMatrix();
+       redmax.getHighestPenaltyIndex();
 
 
 

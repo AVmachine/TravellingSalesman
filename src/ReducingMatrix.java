@@ -1,14 +1,17 @@
 import java.sql.SQLOutput;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Collection;
 
 
 public class ReducingMatrix
 {
-    Index [][] rmarr;
-    DecimalFormat df = new DecimalFormat("#.##");
-    ArrayList<Index> allZeroesList = new ArrayList<>();
+    private Index [][] rmarr;
+    private DecimalFormat df = new DecimalFormat("#.##");
+    private ArrayList<Index> allZeroesList = new ArrayList<>();
+    private LinkedList<Character> fromToList = new LinkedList<>();
 
 
 
@@ -171,6 +174,25 @@ public class ReducingMatrix
         allZeroesList.get(allZeroesIndex).addToPenalty(smallest);
         smallest = Double.NaN;
 
+    }
+
+    public void getHighestPenaltyIndex()
+    {
+        int highestPenaltyIndex = 0;
+        for (int i=1; i < allZeroesList.size(); i++)
+        {
+            if(allZeroesList.get(highestPenaltyIndex).getPenalty() < allZeroesList.get(i).getPenalty())
+            {
+                highestPenaltyIndex = i;
+            }
+        }
+        addToFromToList(highestPenaltyIndex);
+    }
+
+    public void addToFromToList(int i) //Come back to finish
+    {
+        fromToList.add(allZeroesList.get(i).getFrom());
+        fromToList.;
     }
 
     public void displayMatrix()
