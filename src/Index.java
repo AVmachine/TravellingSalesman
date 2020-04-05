@@ -56,7 +56,13 @@ public class Index {
         this.rowNumber = rowNumber;
     }
 
-    public int getRowNumber() {
+    public int getRowNumber()
+    {
         return rowNumber;
+    }
+
+    public void resetPenalty()
+    {
+        penalty = 0;
     }
 }

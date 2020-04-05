@@ -20,13 +20,46 @@ public class Main {
        redmax.fillMatrix(listOfPoints);
        redmax.displayMatrix();
        redmax.rowMinimize();
+       redmax.colMinimize();
+       redmax.getAllZeros();
+       redmax.getPenalty();
+       redmax.getHighestPenaltyIndex();
+
+       redmax.createNewArray();
        redmax.displayMatrix();
+       redmax.resetArray();
+       redmax.displayMatrix();
+       redmax.rowMinimize();
        redmax.colMinimize();
        redmax.displayMatrix();
        redmax.getAllZeros();
        redmax.getPenalty();
-       redmax.displayMatrix();
        redmax.getHighestPenaltyIndex();
+
+        redmax.createNewArray();
+        redmax.displayMatrix();
+        redmax.resetArray();
+        redmax.displayMatrix();
+        redmax.rowMinimize();
+        redmax.colMinimize();
+        redmax.displayMatrix();
+        redmax.getAllZeros();
+        redmax.getPenalty();
+        redmax.getHighestPenaltyIndex();
+
+        redmax.createNewArray();
+        redmax.displayMatrix();
+        redmax.resetArray();
+        redmax.displayMatrix();
+        redmax.rowMinimize();
+        redmax.colMinimize();
+        redmax.displayMatrix();
+        redmax.getAllZeros();
+        redmax.getPenalty();
+        redmax.getHighestPenaltyIndex();
+        redmax.tieItAllTogether();
+
+
 
 
 

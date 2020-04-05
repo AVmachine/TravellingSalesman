@@ -11,14 +11,10 @@ public class ReducingMatrix
     private Index [][] rmarr;
     private DecimalFormat df = new DecimalFormat("#.##");
     private ArrayList<Index> allZeroesList = new ArrayList<>();
-    private LinkedList<Character> fromToList = new LinkedList<>();
+    private LinkedList<Character> finalResult = new LinkedList<>(); //Will be the final list in order from first city and back
+    private ArrayList<Index> theWinners = new ArrayList<>(); //Will store the Index Objects that have a correct To and From
+    private Index currentIndex; //Holding so we can get values like to and from, row, col, etc
 
-
-
-    public ReducingMatrix()
-    {
-
-    }
 
     public void fillMatrix(ArrayList<Point> points)
     {
@@ -153,7 +149,6 @@ public class ReducingMatrix
             }
         }
         allZeroesList.get(allZeroesIndex).addToPenalty(smallest);
-
     }
 
     public void addColPenalty(int col, int allZeroesIndex)
@@ -183,16 +178,116 @@ public class ReducingMatrix
         {
             if(allZeroesList.get(highestPenaltyIndex).getPenalty() < allZeroesList.get(i).getPenalty())
             {
-                highestPenaltyIndex = i;
+                if(theWinners.size() > 0)
+                {
+                    for (int x = 0; x < theWinners.size(); x++)
+                    {
+                        if (allZeroesList.get(i).getFrom() != theWinners.get(x).getTo() &&
+                                allZeroesList.get(i).getTo() != theWinners.get(x).getFrom() &&
+                                rmarr.length > 1)
+                        {
+                            highestPenaltyIndex = i;
+                        }
+                    }
+                }
             }
         }
         addToFromToList(highestPenaltyIndex);
     }
 
-    public void addToFromToList(int i) //Come back to finish
+    public void addToFromToList(int i)
     {
-        fromToList.add(allZeroesList.get(i).getFrom());
-        fromToList.;
+        theWinners.add(allZeroesList.get(i));
+        currentIndex = allZeroesList.get(i);
+        for (Index item: theWinners) {
+            System.out.print("["+item.getFrom()+"]");
+        }
+        System.out.println();
+        for (Index item: theWinners) {
+            System.out.print("["+item.getTo()+"]");
+        }
+        System.out.println();
+        allZeroesList.clear();
+    }
+
+    public void createNewArray()
+    {
+        Index tempIndex;
+        Index[][] tempRmarr = new Index[rmarr.length][rmarr.length];
+        for(int x = 0; x < rmarr.length; x++) //copy into new array
+        {
+            for(int y = 0; y < rmarr.length; y++)
+            {
+                tempRmarr[x][y] = rmarr[x][y];
+            }
+        }
+        rmarr = new Index[rmarr.length-1][rmarr.length-1];
+        int i = 0;
+        int j = 0;
+        for(int x = 0; x < tempRmarr.length; x++) //make new array minus the row and col
+        {
+
+            if(x != currentIndex.getRowNumber()) {
+                for (int y = 0; y < tempRmarr.length; y++) {
+
+                    if(y != currentIndex.getColNumber())
+                    {
+                        rmarr[i][j] = tempRmarr[x][y];
+                        j++;
+                    }
+                    if(j==tempRmarr.length-1)
+                        j=0;
+                }
+                i++;
+            }
+            if(i==tempRmarr.length-1)
+                i=0;
+        }
+    }
+
+    public void tieItAllTogether()
+    {
+        int i = 0; //counter for winner list
+        int j = 0; // counter for final list
+        while(finalResult.size() != theWinners.size()+ 1)
+        {
+           if(theWinners.get(i).getFrom() == 'A')
+           {
+               finalResult.add(theWinners.get(i).getFrom());
+           }
+           else if (theWinners.get(i).getFrom() == finalResult.get(j) && theWinners.size() < 1)
+           {
+               finalResult.add(theWinners.get(i).getFrom());
+               j++;
+           }
+           if(i == theWinners.size()-1)
+            i = 0;
+           i++;
+        }
+        for(int x = 0; x < theWinners.size();x++)
+        {
+            System.out.print(theWinners.get(i) + "");
+        }
+        System.out.println();
+
+    }
+
+    public void resetArray()
+    {
+        for(int x = 0; x < rmarr.length; x++)
+        {
+            for(int y = 0; y < rmarr.length; y++)
+            {
+                rmarr[x][y].setColNumber(y);
+                rmarr[x][y].setRowNumber(x);
+                rmarr[x][y].resetPenalty();
+                for(int i = 0; i < theWinners.size(); i++)
+                {
+                    if (rmarr[x][y].getTo() == theWinners.get(i).getFrom() && rmarr[x][y].getFrom() == theWinners.get(i).getTo() )
+                        rmarr[x][y].setDistance(Double.NaN);
+                }
+            }
+        }
     }
 
     public void displayMatrix()
