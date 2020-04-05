@@ -1,9 +1,6 @@
 import java.sql.SQLOutput;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Collection;
+import java.util.*;
 
 
 public class ReducingMatrix
@@ -14,10 +11,68 @@ public class ReducingMatrix
     private LinkedList<Character> finalResult = new LinkedList<>(); //Will be the final list in order from first city and back
     private ArrayList<Index> theWinners = new ArrayList<>(); //Will store the Index Objects that have a correct To and From
     private Index currentIndex; //Holding so we can get values like to and from, row, col, etc
+    private ArrayList<Point> listOfPointsClone = new ArrayList<>();
+    double shortestDistance = 0;
+    private Index [][] rmarrOriginalClone;
 
+
+    public void theManager(ArrayList<Point> points)
+    {
+        fillMatrix(points);
+        rowMinimize();
+        colMinimize();
+        getAllZeros();
+        getPenalty();
+        getHighestPenaltyIndex();
+        while(rmarr.length > 1)
+        {
+            createNewArray();
+            resetArray();
+            rowMinimize();
+            colMinimize();
+            getAllZeros();
+            getPenalty();
+            getHighestPenaltyIndex();
+        }
+        tieItAllTogether();
+        getShortestDistance();
+    }
+
+    public void cloneList(ArrayList<Point> points)
+    {
+        for(int i = 0; i < points.size();i++)
+        {
+            listOfPointsClone.add(points.get(i));
+        }
+
+        int size = points.size();
+        rmarrOriginalClone = new Index[size][size];
+        for(int x = 0; x < size; x++)
+        {
+            for(int y = 0; y < size; y++)
+            {
+                if(x != y) {
+                    double distance = getDistance(points.get(x), points.get(y));
+                    rmarrOriginalClone[x][y] = new Index();
+                    rmarrOriginalClone[x][y].setDistance(distance);
+                    rmarrOriginalClone[x][y].setFrom(points.get(x).getLetter());
+                    rmarrOriginalClone[x][y].setTo(points.get(y).getLetter());
+                    rmarrOriginalClone[x][y].setColNumber(y);
+                    rmarrOriginalClone[x][y].setRowNumber(x);
+                }
+                else {
+                    rmarrOriginalClone[x][y] = new Index();
+                    rmarrOriginalClone[x][y].setDistance(Double.NaN);
+                }
+            }
+        }
+
+
+    }
 
     public void fillMatrix(ArrayList<Point> points)
     {
+
         int size = points.size();
         rmarr = new Index[size][size];
         for(int x = 0; x < size; x++)
@@ -39,6 +94,7 @@ public class ReducingMatrix
                 }
             }
         }
+        cloneList(points);
 
 
     }
@@ -249,27 +305,32 @@ public class ReducingMatrix
     {
         int i = 0; //counter for winner list
         int j = 0; // counter for final list
-        while(finalResult.size() != theWinners.size()+ 1)
+        while(finalResult.size() != theWinners.size()+1)
         {
            if(theWinners.get(i).getFrom() == 'A')
            {
                finalResult.add(theWinners.get(i).getFrom());
-           }
-           else if (theWinners.get(i).getFrom() == finalResult.get(j) && theWinners.size() < 1)
-           {
-               finalResult.add(theWinners.get(i).getFrom());
+               finalResult.add(theWinners.get(i).getTo());
                j++;
            }
+           else if (theWinners.get(i).getFrom() == finalResult.get(j) && theWinners.size() > 1)
+           {
+               finalResult.add(theWinners.get(i).getTo());
+               j++;
+           }
+
            if(i == theWinners.size()-1)
-            i = 0;
+           {
+               i = 0;
+           }
            i++;
         }
-        for(int x = 0; x < theWinners.size();x++)
+
+        for(int x = 0; x < finalResult.size();x++)
         {
-            System.out.print(theWinners.get(i) + "");
+            System.out.print(finalResult.get(x) + " ");
         }
         System.out.println();
-
     }
 
     public void resetArray()
@@ -288,6 +349,24 @@ public class ReducingMatrix
                 }
             }
         }
+    }
+
+    public void getShortestDistance()
+    {
+        for(int i = 0; i < rmarrOriginalClone.length;i++)
+        {
+            for(int j = 0; j < rmarrOriginalClone.length ;j++)
+            {
+                for(int z = 0; z < finalResult.size()-1 ;z++)
+                {
+                    if (rmarrOriginalClone[i][j].getFrom() == finalResult.get(z) && rmarrOriginalClone[i][j].getTo() == finalResult.get(z + 1))
+                    {
+                        shortestDistance += rmarrOriginalClone[i][j].getDistance();
+                    }
+                }
+            }
+        }
+        System.out.println("Shortest Distance: " + shortestDistance);
     }
 
     public void displayMatrix()
